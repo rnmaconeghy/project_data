@@ -1,0 +1,22 @@
+res <- results(dds)
+head(res)
+mcols(res)
+sum( res$pvalue < 0.05, na.rm=TRUE)
+table( is.na(res$pvalue) )
+sum( res$padj < 0.1, na.rm=TRUE )
+resSig <- res[ which(res$padj <0.1 ), ]
+head( resSig[ order( resSig$log2FoldChange ), ] )
+tail( resSig[ order( resSig$log2FoldChange ), ] )
+plot(attr(res,"filterNumRej"),type="b", ylab="number of rejections")
+sum(res$padj < 0.1, na.rm=TRUE)
+resNoFilt <- results(dds, independentFiltering=FALSE)
+sum(resNoFilt$padj < 0.1, na.rm=TRUE)
+plotMA(dds, ylim = c(-2,2), main="DESeq2")
+plotDispEsts(dds)
+hist(res$pvalue, breaks=100)
+write.csv(as.data.frame(res), file="results.csv")
+#saves the results in a CSV file, which you can then load with Excel
+colData(dds)
+
+rld <- rlogTransformation(dds, blind=TRUE)
+vsd <- varianceStabilizingTransformation(dds, blind=TRUE)
