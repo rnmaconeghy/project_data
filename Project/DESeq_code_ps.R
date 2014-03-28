@@ -73,7 +73,7 @@ annot <- getBM(attributes=c("ensembl_gene_id","external_gene_id",
 annotResults <- merge(annot,DEresults, 
                       by.x="ensembl_gene_id",by.y="row.names")
 
-res <- results(dds)
+res <- annotResults
 head(res)
 mcols(res)
 sum( res$pvalue < 0.05, na.rm=TRUE)
